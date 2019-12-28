@@ -2,50 +2,21 @@
     ViewBag.Title = "Home Page";
 }
 
-@functions {
-    public enum BoxoutType {
-        Standard,
-        Bordered
-    }
-}
-
-@functions {
-    public Dictionary<string, object> components = new Dictionary<string, object>();
-
-    public class BoxoutProps {
-        BoxoutType Type { get; set; }
-    }
-}
-@{
-    RSXViewEngine.RegisterComponent<BoxoutProps>(
-        TempData,
-        "Boxout",
-        (props) => {
-            return new MvcHtmlString("<div class=\"lexcomponent-boxout\">");
-        },
-        (props) => {
-            return new MvcHtmlString("</div>");
-        }
-    );
-}
-
-<component component-name="Boxout" type="BoxoutType">
-    <div class="lexcomponent-boxout">
-        {children}
-    </div>
-</component>
-
-@{ @Html.Raw(RSXViewEngine.WriteStart<BoxoutProps>(TempData, "Boxout", new BoxoutProps())); }
+@Html.Partial("Boxout")
+ 
+@*@{ @Html.Raw(RSXViewEngine.WriteStart<BoxoutProps>(TempData, "Boxout", new BoxoutProps())); }*@
+<Boxout type="@BoxoutType.Standard">
     <div class="jumbotron">
         <h1>ASP.NET</h1>
         <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
         <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
     </div>
-@{ @Html.Raw(RSXViewEngine.WriteEnd<BoxoutProps>(TempData, "Boxout", new BoxoutProps())); }
-
-<div class="row">
+</Boxout> 
+@*@{ @Html.Raw(RSXViewEngine.WriteEnd<BoxoutProps>(TempData, "Boxout", new BoxoutProps())); }*@
+ 
+<div class="row"> 
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Getting started</h2> 
         <p>
             ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
             enables a clean separation of concerns and gives you full control over markup

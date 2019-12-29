@@ -22,3 +22,35 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.boxout {
+    background-color: #dddddd;
+    padding: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.cardcontainer {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: -7.5px;
+    margin-right: -7.5px;
+}
+
+.cardcontainer:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card {
+    float: left;
+    width: 25%;
+}
+
+.card-inner {
+    border: 1px solid #dddddd;
+    padding: 15px;
+    margin-left: 7.5px;
+    margin-right: 7.5px;
+}

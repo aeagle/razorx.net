@@ -49,6 +49,9 @@
       <HintPath>..\packages\HtmlAgilityPack.1.11.17\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -165,7 +168,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <None Include="Views\Home\BoxOut.cshtml" />
+    <Content Include="Views\Shared\CardContainer.cshtml" />
+    <None Include="Views\Shared\Boxout.cshtml" />
+    <Content Include="Views\Shared\Card.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

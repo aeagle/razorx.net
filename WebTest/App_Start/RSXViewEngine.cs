@@ -1,9 +1,13 @@
 ﻿using HtmlAgilityPack;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using System.Web.Razor.Parser;
 
 public class RSXViewEngine : IViewEngine
 {
@@ -43,8 +47,10 @@ public class RSXViewEngine : IViewEngine
 
     public static readonly string PREFIX = "RSXViewEngineComponent";
 
+    private static Dictionary<string, object> components =
+        new Dictionary<string, object>();
+
     public static void RegisterComponent<T>(
-        TempDataDictionary components,
         string name, 
         Func<T, MvcHtmlString> start,
         Func<T, MvcHtmlString> end)
@@ -63,7 +69,6 @@ public class RSXViewEngine : IViewEngine
     }
 
     public static MvcHtmlString WriteStart<T>(
-        TempDataDictionary components, 
         string name, 
         T props)
     {
@@ -75,7 +80,6 @@ public class RSXViewEngine : IViewEngine
     }
 
     public static MvcHtmlString WriteEnd<T>(
-        TempDataDictionary components, 
         string name, 
         T props)
     {
@@ -103,19 +107,6 @@ public class RSXView : IView
 
     public void Render(ViewContext viewContext, TextWriter writer)
     {
-        // First render register components
-        using (var memStream = new MemoryStream())
-        { 
-            using (var viewWriter = new StreamWriter(memStream))
-            {
-                razorView.Render(viewContext, viewWriter);
-            }
-
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(Encoding.UTF8.GetString(memStream.ToArray()));
-        }
-
-        // Second render
         using (var memStream = new MemoryStream())
         {
             using (var viewWriter = new StreamWriter(memStream))
@@ -175,30 +166,80 @@ public class RSXVirtualFile : VirtualFile
 
 public class RSXProcessor
 {
+    public static Regex componentTagRegex = 
+        new Regex(@"<component-(.+?)(| (.+?))>(.+?)</component-\1>", RegexOptions.Singleline | RegexOptions.Compiled);
+
     public static string ProcessFile(string text)
     {
-        HtmlDocument doc = new HtmlDocument();
-        doc.LoadHtml(text);
-
-        var components = doc.DocumentNode.SelectNodes("//component");
-        if (components != null)
-        {
-            foreach (var node in components)
+        MatchEvaluator processComponent = null;
+        processComponent =
+            (match) =>
             {
-                var name = node.GetAttributeValue("component-name", null);
-                if (name != null)
+                var parsedDoc = new HtmlDocument();
+                parsedDoc.LoadHtml($"<p {match.Groups[2].Value}></p>");
+                var node = parsedDoc.DocumentNode.ChildNodes.FindFirst("p");
+
+                var propsGuid = Guid.NewGuid().ToString().Replace("-", "");
+                StringBuilder dynamicObject = new StringBuilder("@{");
+                dynamicObject.AppendLine($"\tdynamic props{propsGuid}start = new System.Dynamic.ExpandoObject();");
+                dynamicObject.AppendLine($"\tprops{propsGuid}start.renderTop = true;");
+                foreach (var attribute in node.Attributes)
                 {
-                    var definition = node.InnerHtml;
-                    definition = definition.Replace("{children}", "¬");
-                    var parts = definition.Split("¬".ToCharArray());
-                    var start = parts[0];
-                    var end = parts.Length > 1 ? parts[1] : "";
+                    if (attribute.Value.StartsWith("@"))
+                    {
+                        dynamicObject.AppendLine($"\tprops{propsGuid}start.{attribute.Name} = {attribute.Value.Substring(1)};");
+                    }
+                    else
+                    {
+                        dynamicObject.AppendLine($"\tprops{propsGuid}start.{attribute.Name} = \"{attribute.Value}\";");
+                    }
                 }
-                node.Remove();
+                dynamicObject.AppendLine($"\tdynamic props{propsGuid}end = new System.Dynamic.ExpandoObject();");
+                dynamicObject.AppendLine($"\tprops{propsGuid}end.renderTop = false;");
+                foreach (var attribute in node.Attributes)
+                {
+                    if (attribute.Value.StartsWith("@"))
+                    {
+                        dynamicObject.AppendLine($"\tprops{propsGuid}end.{attribute.Name} = {attribute.Value.Substring(1)};");
+                    }
+                    else
+                    {
+                        dynamicObject.AppendLine($"\tprops{propsGuid}end.{attribute.Name} = \"{attribute.Value}\";");
+                    }
+                }
+                dynamicObject.AppendLine("}");
+                dynamicObject.AppendLine($"@Html.Partial(\"{match.Groups[1]}\", (object)props{propsGuid}start)");
+                dynamicObject.AppendLine(
+                    componentTagRegex.Replace(
+                        match.Groups[4].Value, 
+                        processComponent
+                    )
+                );
+                dynamicObject.AppendLine($"@Html.Partial(\"{match.Groups[1]}\", (object)props{propsGuid}end)");
+
+                var replacement = dynamicObject.ToString();
+                return replacement;
+            };
+
+        text = componentTagRegex.Replace(text, processComponent);
+
+        if (text.IndexOf("@Model.children") >= 0)
+        {
+            var renderParts = text.Replace("@Model.children", "¬").Split("¬".ToCharArray());
+            StringBuilder newText = new StringBuilder();
+            newText.AppendLine("@if (Model.renderTop) {");
+            newText.AppendLine(string.Join("\r\n", renderParts[0].Split("\r\n".ToCharArray()).Select(x => $"@:{x}")));
+            newText.AppendLine("}");
+            if (renderParts.Length > 1)
+            {
+                newText.AppendLine("@if (!Model.renderTop) {");
+                newText.AppendLine(string.Join("\r\n", renderParts[1].Split("\r\n".ToCharArray()).Select(x => $"@:{x}")));
+                newText.AppendLine("}");
             }
+            text = newText.ToString();
         }
 
-        return doc.DocumentNode.OuterHtml;
+        return text;
     }
 }
 

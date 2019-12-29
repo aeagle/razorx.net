@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTest", "WebTest\WebTest.csproj", "{95C7AD43-4993-46A6-975D-3EA37689D4A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorX.ViewEngine", "RazorX.ViewEngine\RazorX.ViewEngine.csproj", "{D39E5F8E-BA98-4978-8229-239110ABB8CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{95C7AD43-4993-46A6-975D-3EA37689D4A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95C7AD43-4993-46A6-975D-3EA37689D4A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95C7AD43-4993-46A6-975D-3EA37689D4A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D39E5F8E-BA98-4978-8229-239110ABB8CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D39E5F8E-BA98-4978-8229-239110ABB8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D39E5F8E-BA98-4978-8229-239110ABB8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D39E5F8E-BA98-4978-8229-239110ABB8CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

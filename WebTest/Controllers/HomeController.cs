@@ -28,3 +28,17 @@ namespace WebTest.Controllers
         }
     }
 }
+
+public enum BoxoutType
+{
+    Standard,
+    Bordered
+}
+
+public enum CardSize
+{
+    Quarter,
+    Third,
+    Half,
+    Full
+}

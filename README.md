@@ -1,6 +1,6 @@
 # razorx.net
 
-Experimental ASP.NET Razor view engine supplemented with React/JSX style component composability allowing you to do this:
+An ASP.NET MVC view engine supplementing Razor with React/JSX style component composability allowing you to do this:
 
 ### views/home/index.cshtml
 
@@ -51,16 +51,16 @@ With ASP.NET / Razor I have come to find the current methods of creating reusabl
 
 ## How it works
 
-In a nutshell:
+In a nutshell `cshtml` files are pre-processed with a `VirtualFileProvider` meaning the resulting file presented to the default Razor view engine is a `cshtml` file with 100% valid Razor syntax. The preprocessing carried out is as follows:
 
-- A tag formed with the name `component-xxx` will be processed into a `@Html.Partial("xxx")`
-- If the tag is not self closing there will be 2 `@Html.Partial()` references for the start and end
-- All tag attributes are added to a dynamic object and passed as the model to the partial
-- If a partial contains `@Model.children` it will automatically split by the view engine to form the start and end portions of markup
+- A tag formed with the name `component-xxx` will be processed into a `@Html.Partial("xxx")`.
+- If the tag is not self closing there will be 2 `@Html.Partial()` references for the start and end passing a property to determine if the partial should render the top or bottom portion of markup.
+- All tag attributes are added to a dynamic object and passed as the model to the partial.
+- If a partial contains `@Model.children` it will automatically split by the view engine to conditionally render the top or bottom portion of the markup based on property in the model.
 
 ## Complex example
 
-Apart from the special `commponent-` tag the rest of the `cshtml` file is rendered by the default Razor view engine allowing you to use expressions and constructs as you normally would:
+Apart from the special `component-` tag the rest of the `cshtml` file is rendered by the default Razor view engine allowing you to use expressions and constructs as you normally would:
 
 ```html
 <component-boxout classname="my-boxout" type="@BoxoutType.Bordered">
@@ -86,6 +86,11 @@ Apart from the special `commponent-` tag the rest of the `cshtml` file is render
 
 </component-boxout>
 ```
+
+## Things to look at
+
+- Property validation / intellisense
+- Less naive parser moving from Regex to Razor parser
 
 ## Disclaimer
 

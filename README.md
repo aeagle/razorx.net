@@ -39,7 +39,7 @@ When you create these partials:
 
 ## How it works
 
-- A tag formed with the name `component-xxx` will be processed into a @Html.Partial("xxx")
-- If the tag is not self closing there will be 2 @Html.Partial() references for the start and end
+- A tag formed with the name `component-xxx` will be processed into a `@Html.Partial("xxx")`
+- If the tag is not self closing there will be 2 `@Html.Partial()` references for the start and end
 - All tag attributes are added to a dynamic object and passed as the model to the partial
-- If a partial contains @Model.children it will automatically split by the view engine to form the start and end portions of marked
+- If a partial contains `@Model.children` it will automatically split by the view engine to form the start and end portions of marked

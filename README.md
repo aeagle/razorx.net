@@ -1,6 +1,6 @@
 # razorx.net
 
-Experimental ASP.NET Razor view engine supplemented with React/JSX style component composability allowing you to do this:
+ASP.NET Razor view engine supplemented with React/JSX style component composability allowing you to do this:
 
 ### views/home/index.cshtml
 
@@ -51,7 +51,7 @@ With ASP.NET / Razor I have come to find the current methods of creating reusabl
 
 ## How it works
 
-In a nutshell:
+In a nutshell `cshtml` files are pre-processed with a `VirtualFileProvider` meaning the resulting file presented to the default Razor view engine is a `cshtml` file with 100% valid Razor syntax. The preprocessing carried out is as follows:
 
 - A tag formed with the name `component-xxx` will be processed into a `@Html.Partial("xxx")`
 - If the tag is not self closing there will be 2 `@Html.Partial()` references for the start and end
@@ -86,6 +86,11 @@ Apart from the special `commponent-` tag the rest of the `cshtml` file is render
 
 </component-boxout>
 ```
+
+## Things to look at
+
+- Property validation / intellisense
+- Less naive parser moving from Regex to Razor parser
 
 ## Disclaimer
 

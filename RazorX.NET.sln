@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTest", "WebTest\WebTest.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorX.ViewEngine", "RazorX.ViewEngine\RazorX.ViewEngine.csproj", "{D39E5F8E-BA98-4978-8229-239110ABB8CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorX.Unit.Tests", "RazorX.Unit.Tests\RazorX.Unit.Tests.csproj", "{1F707A14-6B55-45C2-B8AD-26D2BD75F688}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D39E5F8E-BA98-4978-8229-239110ABB8CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D39E5F8E-BA98-4978-8229-239110ABB8CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D39E5F8E-BA98-4978-8229-239110ABB8CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F707A14-6B55-45C2-B8AD-26D2BD75F688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F707A14-6B55-45C2-B8AD-26D2BD75F688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F707A14-6B55-45C2-B8AD-26D2BD75F688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F707A14-6B55-45C2-B8AD-26D2BD75F688}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

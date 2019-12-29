@@ -1,10 +1,17 @@
-﻿using System.IO;
+﻿using System;
 using System.Web.Hosting;
 
 namespace RazorX.ViewEngine
 {
     public class RazorXVirtualPathProvider : VirtualPathProvider
     {
+        private readonly IRazorXParser parser;
+
+        public RazorXVirtualPathProvider(IRazorXParser parser)
+        {
+            this.parser = parser ?? throw new ArgumentNullException(nameof(parser));
+        }
+
         public override VirtualFile GetFile(string virtualPath)
         {
             if (!virtualPath.EndsWith(".cshtml"))
@@ -15,9 +22,8 @@ namespace RazorX.ViewEngine
             var file = base.GetFile(virtualPath);
 
             using (var stream = file.Open())
-            using (var reader = new StreamReader(stream))
             {
-                var contents = RazorXParser.ProcessFile(reader.ReadToEnd());
+                var contents = parser.Process(stream);
                 return new RazorXVirtualFile(virtualPath, contents);
             }
         }

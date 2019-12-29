@@ -1,12 +1,13 @@
 ﻿using HtmlAgilityPack;
 using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RazorX.ViewEngine
 {
-    public class RazorXParser
+    public class RazorXRegExParser : IRazorXParser
     {
         const string COMPONENT_TAG_PREFIX = "component";
         const string PARTIAL_SPLIT_TOKEN = "@Model.children";
@@ -14,11 +15,19 @@ namespace RazorX.ViewEngine
 
         public static readonly Regex componentTagRegex =
             new Regex(
-                $@"<{COMPONENT_TAG_PREFIX}-(.+?)(| (.+?))>(.+?)</{COMPONENT_TAG_PREFIX}-\1>", 
+                $@"<{COMPONENT_TAG_PREFIX}-(.+?)(| (.+?))>(.+?)</{COMPONENT_TAG_PREFIX}-\1>",
                 RegexOptions.Singleline | RegexOptions.Compiled
             );
 
-        public static string ProcessFile(string text)
+        public string Process(Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                return Process(reader.ReadToEnd());
+            }
+        }
+
+        public string Process(string text)
         {
             if (text.IndexOf($"<{COMPONENT_TAG_PREFIX}-") >= 0)
             {
@@ -91,7 +100,7 @@ namespace RazorX.ViewEngine
 
             if (text.IndexOf(PARTIAL_SPLIT_TOKEN) >= 0)
             {
-                var renderParts = 
+                var renderParts =
                     text
                         .Replace(PARTIAL_SPLIT_TOKEN, PARTIAL_SPLIT_CHAR)
                         .Split(PARTIAL_SPLIT_CHAR.ToCharArray());
@@ -100,14 +109,14 @@ namespace RazorX.ViewEngine
                 newText.AppendLine("@if (Model.renderTop) {");
                 newText.AppendLine(string.Join("\r\n", renderParts[0].Split("\r\n".ToCharArray()).Select(x => x.Trim().StartsWith("@") ? x : $"@:{x}")));
                 newText.AppendLine("}");
-                
+
                 if (renderParts.Length > 1)
                 {
                     newText.AppendLine("@if (!Model.renderTop) {");
                     newText.AppendLine(string.Join("\r\n", renderParts[1].Split("\r\n".ToCharArray()).Select(x => x.Trim().StartsWith("@") ? x : $"@:{x}")));
                     newText.AppendLine("}");
                 }
-                
+
                 text = newText.ToString();
             }
 

@@ -7,7 +7,11 @@ namespace RazorX.ViewEngine
     {
         public static void Initialize()
         {
-            RazorXVirtualPathProvider provider = new RazorXVirtualPathProvider();
+            RazorXVirtualPathProvider provider = 
+                new RazorXVirtualPathProvider(
+                    new RazorXRegExParser()
+                );
+
             HostingEnvironment.RegisterVirtualPathProvider(provider);
         }
 

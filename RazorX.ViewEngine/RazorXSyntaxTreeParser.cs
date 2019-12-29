@@ -6,7 +6,7 @@ using System.Web.Razor.Parser.SyntaxTree;
 
 namespace RazorX.ViewEngine
 {
-    public class RazorXSyntaxTreeParser
+    public class RazorXSyntaxTreeParser : IRazorXParser
     {
         private readonly RazorTemplateEngine engine;
 
@@ -30,7 +30,8 @@ namespace RazorX.ViewEngine
             {
                 var parserResults = engine.ParseTemplate(reader);
 
-                void walkTree(StringBuilder output, Block block) {
+                void walkTree(StringBuilder output, Block block)
+                {
                     if (block.Type == BlockType.Expression &&
                         string.Join(
                             "",

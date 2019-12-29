@@ -3,7 +3,6 @@ using RazorX.ViewEngine;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Web.Razor;
 
 namespace RazorX.Unit.Tests
 {

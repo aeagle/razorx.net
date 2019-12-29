@@ -39,19 +39,15 @@ When you create these partials:
 
 ## Why?
 
-I've been writing React applications using JSX for a while now and appreciate the composability of creating reusable components. With ASP.NET / Razor I have come to find the current methods of creating reusable presentational components lacking:
+I've been writing React applications using JSX/TSX for a while now and appreciate the composability of creating reusable components with it. 
 
-- Partials
+With ASP.NET / Razor I have come to find the current methods of creating reusable presentational components lacking:
 
-Can't wrap other content unless you specifically create start and end partials.
+- *Partials* - Can't wrap other content unless you specifically create start and end partials and passing properties via the object model can be cumbersome.
 
-- HTMLHelpers / TagHelpers
+- *HTMLHelpers / TagHelpers* - You have to write C# code which renders markup. Not to mention you can't use tag helpers in ASP.NET MVC (non-core).
 
-You have to write C# code which renders markup. Not to mention you can't use tag helpers in ASP.NET MVC (non-core).
-
-- @helper
-
-Doesn't deal with composability of multiple helpers in a nice way.
+- *@helper* - Doesn't deal with composability of multiple helpers in a nice way.
 
 ## How it works
 
@@ -90,3 +86,7 @@ Apart from the special `commponent-` tag the rest of the `cshtml` file is render
 
 </component-boxout>
 ```
+
+## Disclaimer
+
+The work here is very experimental, work in progress and un-tested at this moment. Treat it more as a proof of concept and use at your own risk.

@@ -24,10 +24,17 @@ textarea {
 }
 
 .boxout {
-    background-color: #dddddd;
     padding: 15px;
     margin-top: 15px;
     margin-bottom: 15px;
+}
+
+.boxout.type-standard {
+    background-color: #dddddd;
+}
+
+.boxout.type-bordered {
+    border: 1px solid #dddddd;
 }
 
 .cardcontainer {
@@ -35,6 +42,18 @@ textarea {
     margin-bottom: 15px;
     margin-left: -7.5px;
     margin-right: -7.5px;
+}
+
+.cardcontainer.size-quarter .card {
+    width: 25%;
+}
+
+.cardcontainer.size-third .card {
+    width: 33%;
+}
+
+.cardcontainer.size-half .card {
+    width: 50%;
 }
 
 .cardcontainer:after {
@@ -45,7 +64,6 @@ textarea {
 
 .card {
     float: left;
-    width: 25%;
 }
 
 .card-inner {
@@ -53,4 +71,6 @@ textarea {
     padding: 15px;
     margin-left: 7.5px;
     margin-right: 7.5px;
+    margin-bottom: 15px;
+    background-color: white;
 }

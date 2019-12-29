@@ -2,7 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
-<component-cardcontainer>
+<component-cardcontainer size="@CardSize.Half">
 
     @foreach (var idx in Enumerable.Range(1, 4))
     {
@@ -22,5 +22,43 @@
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
     vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
     pharetra lacus a nunc eleifend aliquam.
+
+    <component-cardcontainer size="@CardSize.Half">
+
+        @foreach (var idx in Enumerable.Range(1, 4))
+        {
+            <text>
+                <component-card>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                    vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
+                    pharetra lacus a nunc eleifend aliquam.
+                </component-card>
+            </text>
+        }
+
+    </component-cardcontainer>
+
+</component-boxout>
+
+<component-boxout classname="good-bye" type="@BoxoutType.Bordered">
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
+    pharetra lacus a nunc eleifend aliquam.
+
+    <component-cardcontainer size="@CardSize.Half">
+
+        @foreach (var idx in Enumerable.Range(1, 4))
+        {
+            <text>
+                <component-card>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                    vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
+                    pharetra lacus a nunc eleifend aliquam.
+                </component-card>
+            </text>
+        }
+
+    </component-cardcontainer>
 
 </component-boxout>

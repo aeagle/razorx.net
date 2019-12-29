@@ -180,34 +180,34 @@ public class RSXProcessor
                 var node = parsedDoc.DocumentNode.ChildNodes.FindFirst("p");
 
                 var propsGuid = Guid.NewGuid().ToString().Replace("-", "");
-                StringBuilder dynamicObject = new StringBuilder("@{");
-                dynamicObject.AppendLine($"\tdynamic props{propsGuid}start = new System.Dynamic.ExpandoObject();");
-                dynamicObject.AppendLine($"\tprops{propsGuid}start.renderTop = true;");
+                StringBuilder dynamicObject = new StringBuilder("@{ ");
+                dynamicObject.Append($"dynamic props{propsGuid}start = new System.Dynamic.ExpandoObject();");
+                dynamicObject.Append($"props{propsGuid}start.renderTop = true;");
                 foreach (var attribute in node.Attributes)
                 {
                     if (attribute.Value.StartsWith("@"))
                     {
-                        dynamicObject.AppendLine($"\tprops{propsGuid}start.{attribute.Name} = {attribute.Value.Substring(1)};");
+                        dynamicObject.Append($"props{propsGuid}start.{attribute.Name} = {attribute.Value.Substring(1)};");
                     }
                     else
                     {
-                        dynamicObject.AppendLine($"\tprops{propsGuid}start.{attribute.Name} = \"{attribute.Value}\";");
+                        dynamicObject.Append($"props{propsGuid}start.{attribute.Name} = \"{attribute.Value}\";");
                     }
                 }
-                dynamicObject.AppendLine($"\tdynamic props{propsGuid}end = new System.Dynamic.ExpandoObject();");
-                dynamicObject.AppendLine($"\tprops{propsGuid}end.renderTop = false;");
+                dynamicObject.Append($"dynamic props{propsGuid}end = new System.Dynamic.ExpandoObject();");
+                dynamicObject.Append($"props{propsGuid}end.renderTop = false;");
                 foreach (var attribute in node.Attributes)
                 {
                     if (attribute.Value.StartsWith("@"))
                     {
-                        dynamicObject.AppendLine($"\tprops{propsGuid}end.{attribute.Name} = {attribute.Value.Substring(1)};");
+                        dynamicObject.Append($"props{propsGuid}end.{attribute.Name} = {attribute.Value.Substring(1)};");
                     }
                     else
                     {
-                        dynamicObject.AppendLine($"\tprops{propsGuid}end.{attribute.Name} = \"{attribute.Value}\";");
+                        dynamicObject.Append($"props{propsGuid}end.{attribute.Name} = \"{attribute.Value}\";");
                     }
                 }
-                dynamicObject.AppendLine("}");
+                dynamicObject.Append("}\r\n");
                 dynamicObject.AppendLine($"@Html.Partial(\"{match.Groups[1]}\", (object)props{propsGuid}start)");
                 dynamicObject.AppendLine(
                     componentTagRegex.Replace(
@@ -228,12 +228,12 @@ public class RSXProcessor
             var renderParts = text.Replace("@Model.children", "¬").Split("¬".ToCharArray());
             StringBuilder newText = new StringBuilder();
             newText.AppendLine("@if (Model.renderTop) {");
-            newText.AppendLine(string.Join("\r\n", renderParts[0].Split("\r\n".ToCharArray()).Select(x => $"@:{x}")));
+            newText.AppendLine(string.Join("\r\n", renderParts[0].Split("\r\n".ToCharArray()).Select(x => x.Trim().StartsWith("@") ? x : $"@:{x}")));
             newText.AppendLine("}");
             if (renderParts.Length > 1)
             {
                 newText.AppendLine("@if (!Model.renderTop) {");
-                newText.AppendLine(string.Join("\r\n", renderParts[1].Split("\r\n".ToCharArray()).Select(x => $"@:{x}")));
+                newText.AppendLine(string.Join("\r\n", renderParts[1].Split("\r\n".ToCharArray()).Select(x => x.Trim().StartsWith("@") ? x : $"@:{x}")));
                 newText.AppendLine("}");
             }
             text = newText.ToString();

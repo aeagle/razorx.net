@@ -172,6 +172,8 @@
     <None Include="Views\Shared\Boxout.cshtml" />
     <Content Include="Views\Shared\Card.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\TabContainer.cshtml" />
+    <Content Include="Views\Shared\Tab.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

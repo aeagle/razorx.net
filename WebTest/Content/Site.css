@@ -74,3 +74,29 @@ textarea {
     margin-bottom: 15px;
     background-color: white;
 }
+
+.tabcontainer {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.tabcontainer:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.tab {
+    float: left;
+}
+
+.tab > a {
+    padding: 5px 15px;
+    display: block;
+    color: black;
+    cursor: pointer;
+}
+
+.tab.active > a {
+    background-color: #dddddd;
+}

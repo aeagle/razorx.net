@@ -1,6 +1,6 @@
 # razorx.net
 
-Experimental ASP.NET Razor view engine supplemented with JSX style component composability allowing you to do this:
+Experimental ASP.NET Razor view engine supplemented with React/JSX style component composability allowing you to do this:
 
 ### views/home/index.cshtml
 

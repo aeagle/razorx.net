@@ -1,6 +1,4 @@
-using NUnit.Framework;
-using RazorX.ViewEngine;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,30 +7,8 @@ using System.Web.Razor;
 
 namespace RazorX.Unit.Tests
 {
-    public class RazorSyntaxTreeParserTests
+    public static class Utils
     {
-        [TestCase("ComponentSimple")]
-        [TestCase("ComponentWithinComponent")]
-        [TestCase("ComponentUseSimple")]
-        [TestCase("ComponentUseNested")]
-        public void RazorSyntaxTreeParser_IsValid(string testFolder)
-        {
-            // Arrange
-            var original = File.ReadAllText(TestFile($"{testFolder}/Original.cshtml"));
-            var expected = File.ReadAllText(TestFile($"{testFolder}/Expected.cshtml"));
-            Assert.IsTrue(IsValidRazor(original));
-            Assert.IsTrue(IsValidRazor(expected));
-
-            var sut = new RazorXSyntaxTreeParser();
-
-            // Act
-            var actual = sut.Process(original);
-
-            // Assert
-            Assert.AreEqual(expected, actual);
-            Assert.IsTrue(IsValidRazor(actual));
-        }
-
         public static string TestFile(string name) =>
             Path.Combine(AssemblyDirectory, $"../../../RazorFiles/{name}");
 

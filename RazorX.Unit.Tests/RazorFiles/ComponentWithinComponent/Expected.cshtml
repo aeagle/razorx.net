@@ -1,8 +1,10 @@
 ﻿@if (Model.renderTop) {
 @:<div class="boxout">
-    @Html.Partial("name", RazorX.ViewEngine.RazorXProps.Create().Add("renderTop", true).Build())
+@:
+    @Html.Partial("name", (object)RazorX.ViewEngine.RazorXProps.Create().Add("renderTop", true).Build())
 }
 @if (!Model.renderTop) {
-    @Html.Partial("name", RazorX.ViewEngine.RazorXProps.Create().Add("renderTop", false).Build())
+    @Html.Partial("name", (object)RazorX.ViewEngine.RazorXProps.Create().Add("renderTop", false).Build())
+@:
 @:</div>
 }

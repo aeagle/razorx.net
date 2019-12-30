@@ -17,6 +17,12 @@ namespace RazorX.ViewEngine
                 RegexOptions.Singleline | RegexOptions.Compiled
             );
 
+        public static readonly Regex componentTagSelfClosingRegex =
+            new Regex(
+                $@"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-(\S+) (|[^>]+?)/>",
+                RegexOptions.Singleline | RegexOptions.Compiled
+            );
+
         public string Process(Stream stream)
         {
             using (var reader = new StreamReader(stream))
@@ -40,34 +46,38 @@ namespace RazorX.ViewEngine
                     StringBuilder dynamicObject = new StringBuilder();
                     dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", true)");
                     addProps(dynamicObject, node.Attributes);
-                    dynamicObject.AppendLine($".Build())");
+                    dynamicObject.Append($".Build())");
 
-                    if (match.Groups[4].Value.IndexOf($"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-") >= 0)
+                    if (match.Groups.Count > 3)
                     {
-                        // Recursively process component tags
-                        dynamicObject.AppendLine(
-                            componentTagRegex.Replace(
-                                match.Groups[4].Value,
-                                processComponent
-                            )
-                        );
-                    }
-                    else
-                    {
-                        dynamicObject.AppendLine(
-                            match.Groups[4].Value
-                        );
-                    }
+                        if (match.Groups[4].Value.IndexOf($"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-") >= 0)
+                        {
+                            // Recursively process component tags
+                            dynamicObject.Append(
+                                componentTagRegex.Replace(
+                                    match.Groups[4].Value,
+                                    processComponent
+                                )
+                            );
+                        }
+                        else
+                        {
+                            dynamicObject.Append(
+                                match.Groups[4].Value
+                            );
+                        }
 
-                    dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", false)");
-                    addProps(dynamicObject, node.Attributes);
-                    dynamicObject.AppendLine($".Build())");
+                        dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", false)");
+                        addProps(dynamicObject, node.Attributes);
+                        dynamicObject.Append($".Build())");
+                    }
 
                     var replacement = dynamicObject.ToString();
                     return replacement;
                 };
 
                 text = componentTagRegex.Replace(text, processComponent);
+                text = componentTagSelfClosingRegex.Replace(text, processComponent);
             }
 
             // Process partials with @Model.children

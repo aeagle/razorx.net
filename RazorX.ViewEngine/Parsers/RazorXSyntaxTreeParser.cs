@@ -35,28 +35,41 @@ namespace RazorX.ViewEngine
                 var flattenedTree = new List<Span>();
                 var needsSplit = false;
 
-                void walkTree(Block block)
+                bool isSplitExpression(Block block)
                 {
-                    if (block.Type == BlockType.Expression &&
+                    return
+                        block.Type == BlockType.Expression &&
                         string.Join(
                             "",
                             block.Children
                                 .Select(c => c as Span)
                                 .Where(c => c != null)
                                 .Select(c => c.Content)
-                        ).IndexOf("Model.children") >= 0)
+                        ).IndexOf($"@{RazorXViewEngine.PARTIAL_SPLIT_TOKEN}") >= 0;
+                }
+
+                Span createCodeSpan(string code)
+                {
+                    var builder = new SpanBuilder();
+                    builder.Kind = SpanKind.Code;
+
+                    builder.Accept(
+                        new HtmlSymbol(
+                            new SourceLocation(0, 0, 0),
+                            code,
+                            HtmlSymbolType.Text
+                        )
+                    );
+
+                    return builder.Build();
+                }
+
+                void walkTree(Block block)
+                {
+                    if (isSplitExpression(block))
                     {
-                        var builder = new SpanBuilder();
-                        builder.Kind = SpanKind.Code;
-                       
-                        builder.Accept(
-                            new HtmlSymbol(
-                                new SourceLocation(0, 0, 0),
-                                "\r\n}\r\n@if (!Model.renderTop) {\r\n",
-                                HtmlSymbolType.Text
-                            )
-                        );
-                        flattenedTree.Add(builder.Build());
+                        flattenedTree.Insert(0, createCodeSpan("@if (Model.renderTop) {\r\n"));
+                        flattenedTree.Add(createCodeSpan("\r\n}\r\n@if (!Model.renderTop) {\r\n"));
                         needsSplit = true;
                     }
                     else
@@ -78,18 +91,15 @@ namespace RazorX.ViewEngine
                 }
 
                 walkTree(parserResults.Document);
-                StringBuilder result = new StringBuilder();
                 if (needsSplit)
                 {
-                    result.AppendLine("@if (Model.renderTop) {");
+                    flattenedTree.Add(createCodeSpan("\r\n}\r\n"));
                 }
+
+                StringBuilder result = new StringBuilder();
                 foreach (var span in flattenedTree)
                 {
                     result.Append(span.Content);
-                }
-                if (needsSplit)
-                {
-                    result.AppendLine("}");
                 }
 
                 return result.ToString();

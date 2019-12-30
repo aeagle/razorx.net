@@ -9,13 +9,11 @@ namespace RazorX.ViewEngine
 {
     public class RazorXRegExParser : IRazorXParser
     {
-        const string COMPONENT_TAG_PREFIX = "component";
-        const string PARTIAL_SPLIT_TOKEN = "@Model.children";
         const string PARTIAL_SPLIT_CHAR = "¬";
 
         public static readonly Regex componentTagRegex =
             new Regex(
-                $@"<{COMPONENT_TAG_PREFIX}-(.+?)(| (.+?))>(.+?)</{COMPONENT_TAG_PREFIX}-\1>",
+                $@"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-(.+?)(| (.+?))>(.+?)</{RazorXViewEngine.COMPONENT_TAG_PREFIX}-\1>",
                 RegexOptions.Singleline | RegexOptions.Compiled
             );
 
@@ -29,7 +27,8 @@ namespace RazorX.ViewEngine
 
         public string Process(string text)
         {
-            if (text.IndexOf($"<{COMPONENT_TAG_PREFIX}-") >= 0)
+            // Process component tags
+            if (text.IndexOf($"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-") >= 0)
             {
                 MatchEvaluator processComponent = null;
                 processComponent =
@@ -72,7 +71,7 @@ namespace RazorX.ViewEngine
                         dynamicObject.Append("}\r\n");
                         dynamicObject.AppendLine($"@Html.Partial(\"{match.Groups[1]}\", (object)props{propsGuid}start)");
 
-                        if (match.Groups[4].Value.IndexOf($"<{COMPONENT_TAG_PREFIX}-") >= 0)
+                        if (match.Groups[4].Value.IndexOf($"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-") >= 0)
                         {
                             // Recursively process component tags
                             dynamicObject.AppendLine(
@@ -98,11 +97,12 @@ namespace RazorX.ViewEngine
                 text = componentTagRegex.Replace(text, processComponent);
             }
 
-            if (text.IndexOf(PARTIAL_SPLIT_TOKEN) >= 0)
+            // Process partials with @Model.children
+            if (text.IndexOf(RazorXViewEngine.PARTIAL_SPLIT_TOKEN) >= 0)
             {
                 var renderParts =
                     text
-                        .Replace(PARTIAL_SPLIT_TOKEN, PARTIAL_SPLIT_CHAR)
+                        .Replace(RazorXViewEngine.PARTIAL_SPLIT_TOKEN, PARTIAL_SPLIT_CHAR)
                         .Split(PARTIAL_SPLIT_CHAR.ToCharArray());
 
                 StringBuilder newText = new StringBuilder();

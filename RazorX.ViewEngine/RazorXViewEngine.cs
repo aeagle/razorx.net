@@ -5,6 +5,9 @@ namespace RazorX.ViewEngine
 {
     public class RazorXViewEngine : IViewEngine
     {
+        public const string COMPONENT_TAG_PREFIX = "component";
+        public const string PARTIAL_SPLIT_TOKEN = "@Model.children";
+
         public static void Initialize()
         {
             RazorXVirtualPathProvider provider = 

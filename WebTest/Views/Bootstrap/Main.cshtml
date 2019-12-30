@@ -1,0 +1,72 @@
+﻿<component-tabcontainer>
+    <component-tab active="@true">
+        Tab 1
+    </component-tab>
+    <component-tab active="@false">
+        Tab 2
+    </component-tab>
+    <component-tab active="@false">
+        Tab 3
+    </component-tab>
+</component-tabcontainer>
+
+<component-cardcontainer size="@CardSize.Half">
+
+    @foreach (var idx in Enumerable.Range(1, 4))
+    {
+        <text>
+            <component-card>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
+                pharetra lacus a nunc eleifend aliquam.
+            </component-card>
+        </text>
+    }
+
+</component-cardcontainer>
+
+<component-boxout classname="hello" type="@BoxoutType.Standard">
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
+    pharetra lacus a nunc eleifend aliquam.
+
+    <component-cardcontainer size="@CardSize.Half">
+
+        @foreach (var idx in Enumerable.Range(1, 4))
+        {
+            <text>
+                <component-card>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                    vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
+                    pharetra lacus a nunc eleifend aliquam.
+                </component-card>
+            </text>
+        }
+
+    </component-cardcontainer>
+
+</component-boxout>
+
+<component-boxout classname="good-bye" type="@BoxoutType.Bordered">
+
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
+    pharetra lacus a nunc eleifend aliquam.
+
+    <component-cardcontainer size="@CardSize.Third">
+
+        @foreach (var idx in Enumerable.Range(1, 3))
+        {
+            <text>
+                <component-card>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                    vitae purus id urna ornare convallis. Mauris ac cursus tortor. Phasellus
+                    pharetra lacus a nunc eleifend aliquam.
+                </component-card>
+            </text>
+        }
+
+    </component-cardcontainer>
+
+</component-boxout>

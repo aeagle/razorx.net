@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <component-header appname="Bootstrap example">
+            <component-headerlink>
+                @Html.ActionLink("Home", "Index", "Bootstrap")
+            </component-headerlink>
+            <component-headerlink>
+                <a href="http://www.google.com">Google</a>
+            </component-headerlink>
+        </component-header>
+
+        <component-container classname="body-content">
+            <component-row>
+                <component-column mdsize="8">
+                    <component-main />
+                </component-column>
+                <component-column mdsize="4">
+                    <component-sidebar />
+                </component-column>
+            </component-row>
+        </component-container>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+    </body>
+</html>

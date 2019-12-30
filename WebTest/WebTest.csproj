@@ -126,6 +126,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BootstrapController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -166,6 +167,14 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\CardContainer.cshtml" />
+    <Content Include="Views\Bootstrap\Index.cshtml" />
+    <Content Include="Views\Bootstrap\Header.cshtml" />
+    <Content Include="Views\Bootstrap\Container.cshtml" />
+    <Content Include="Views\Bootstrap\Main.cshtml" />
+    <Content Include="Views\Bootstrap\Row.cshtml" />
+    <Content Include="Views\Bootstrap\Column.cshtml" />
+    <Content Include="Views\Bootstrap\HeaderLink.cshtml" />
+    <Content Include="Views\Bootstrap\Sidebar.cshtml" />
     <None Include="Views\Shared\Boxout.cshtml" />
     <Content Include="Views\Shared\Card.cshtml" />
     <None Include="Views\Home\Index.cshtml">

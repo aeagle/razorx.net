@@ -40,12 +40,12 @@ namespace RazorX.ViewEngine
                     StringBuilder dynamicObject = new StringBuilder();
                     dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", true)");
                     addProps(dynamicObject, node.Attributes);
-                    dynamicObject.AppendLine($".Build())");
+                    dynamicObject.Append($".Build())");
 
                     if (match.Groups[4].Value.IndexOf($"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-") >= 0)
                     {
                         // Recursively process component tags
-                        dynamicObject.AppendLine(
+                        dynamicObject.Append(
                             componentTagRegex.Replace(
                                 match.Groups[4].Value,
                                 processComponent
@@ -54,14 +54,14 @@ namespace RazorX.ViewEngine
                     }
                     else
                     {
-                        dynamicObject.AppendLine(
+                        dynamicObject.Append(
                             match.Groups[4].Value
                         );
                     }
 
                     dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", false)");
                     addProps(dynamicObject, node.Attributes);
-                    dynamicObject.AppendLine($".Build())");
+                    dynamicObject.Append($".Build())");
 
                     var replacement = dynamicObject.ToString();
                     return replacement;

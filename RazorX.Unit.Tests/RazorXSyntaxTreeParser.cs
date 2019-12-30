@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using RazorX.ViewEngine;
+using System;
 using System.IO;
 
 namespace RazorX.Unit.Tests
@@ -24,6 +25,10 @@ namespace RazorX.Unit.Tests
             var actual = sut.Process(original);
 
             // Assert
+            Console.WriteLine("*** EXPECTED ***");
+            Console.WriteLine(expected);
+            Console.WriteLine("*** ACTUAL ***");
+            Console.WriteLine(actual);
             Assert.AreEqual(expected, actual);
             Assert.IsTrue(Utils.IsValidRazor(actual));
         }

@@ -70,6 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parsers\RazorXRegExParser.cs" />
     <Compile Include="Parsers\RazorXSyntaxTreeParser.cs" />
+    <Compile Include="RazorXProps.cs" />
     <Compile Include="RazorXView.cs" />
     <Compile Include="RazorXViewEngine.cs" />
     <Compile Include="RazorXVirtualFile.cs" />

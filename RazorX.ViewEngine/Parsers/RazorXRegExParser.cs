@@ -30,79 +30,52 @@ namespace RazorX.ViewEngine
             // Process component tags
             if (text.IndexOf($"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-") >= 0)
             {
-                MatchEvaluator processComponent = null;
-                processComponent =
-                    (match) =>
+                string processComponent(Match match)
+                {
+                    var parsedDoc = new HtmlDocument();
+                    parsedDoc.LoadHtml($"<p {match.Groups[2].Value}></p>");
+                    var node = parsedDoc.DocumentNode.ChildNodes.FindFirst("p");
+                    var propsGuid = Guid.NewGuid().ToString().Replace("-", "");
+
+                    StringBuilder dynamicObject = new StringBuilder();
+                    dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", true)");
+                    addProps(dynamicObject, node.Attributes);
+                    dynamicObject.AppendLine($".Build())");
+
+                    if (match.Groups[4].Value.IndexOf($"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-") >= 0)
                     {
-                        var parsedDoc = new HtmlDocument();
-                        parsedDoc.LoadHtml($"<p {match.Groups[2].Value}></p>");
-                        var node = parsedDoc.DocumentNode.ChildNodes.FindFirst("p");
-                        var propsGuid = Guid.NewGuid().ToString().Replace("-", "");
+                        // Recursively process component tags
+                        dynamicObject.AppendLine(
+                            componentTagRegex.Replace(
+                                match.Groups[4].Value,
+                                processComponent
+                            )
+                        );
+                    }
+                    else
+                    {
+                        dynamicObject.AppendLine(
+                            match.Groups[4].Value
+                        );
+                    }
 
-                        StringBuilder dynamicObject = new StringBuilder("@{ ");
+                    dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", false)");
+                    addProps(dynamicObject, node.Attributes);
+                    dynamicObject.AppendLine($".Build())");
 
-                        dynamicObject.Append($"dynamic props{propsGuid}start = new System.Dynamic.ExpandoObject();");
-                        dynamicObject.Append($"props{propsGuid}start.renderTop = true;");
-                        foreach (var attribute in node.Attributes)
-                        {
-                            if (attribute.Value.StartsWith("@"))
-                            {
-                                dynamicObject.Append($"props{propsGuid}start.{attribute.Name} = {attribute.Value.Substring(1)};");
-                            }
-                            else
-                            {
-                                dynamicObject.Append($"props{propsGuid}start.{attribute.Name} = \"{attribute.Value}\";");
-                            }
-                        }
-
-                        dynamicObject.Append($"dynamic props{propsGuid}end = new System.Dynamic.ExpandoObject();");
-                        dynamicObject.Append($"props{propsGuid}end.renderTop = false;");
-                        foreach (var attribute in node.Attributes)
-                        {
-                            if (attribute.Value.StartsWith("@"))
-                            {
-                                dynamicObject.Append($"props{propsGuid}end.{attribute.Name} = {attribute.Value.Substring(1)};");
-                            }
-                            else
-                            {
-                                dynamicObject.Append($"props{propsGuid}end.{attribute.Name} = \"{attribute.Value}\";");
-                            }
-                        }
-                        dynamicObject.Append("}\r\n");
-                        dynamicObject.AppendLine($"@Html.Partial(\"{match.Groups[1]}\", (object)props{propsGuid}start)");
-
-                        if (match.Groups[4].Value.IndexOf($"<{RazorXViewEngine.COMPONENT_TAG_PREFIX}-") >= 0)
-                        {
-                            // Recursively process component tags
-                            dynamicObject.AppendLine(
-                                componentTagRegex.Replace(
-                                    match.Groups[4].Value,
-                                    processComponent
-                                )
-                            );
-                        }
-                        else
-                        {
-                            dynamicObject.AppendLine(
-                                match.Groups[4].Value
-                            );
-                        }
-
-                        dynamicObject.AppendLine($"@Html.Partial(\"{match.Groups[1]}\", (object)props{propsGuid}end)");
-
-                        var replacement = dynamicObject.ToString();
-                        return replacement;
-                    };
+                    var replacement = dynamicObject.ToString();
+                    return replacement;
+                };
 
                 text = componentTagRegex.Replace(text, processComponent);
             }
 
             // Process partials with @Model.children
-            if (text.IndexOf(RazorXViewEngine.PARTIAL_SPLIT_TOKEN) >= 0)
+            if (text.IndexOf($"@{RazorXViewEngine.PARTIAL_SPLIT_TOKEN}") >= 0)
             {
                 var renderParts =
                     text
-                        .Replace(RazorXViewEngine.PARTIAL_SPLIT_TOKEN, PARTIAL_SPLIT_CHAR)
+                        .Replace($"@{RazorXViewEngine.PARTIAL_SPLIT_TOKEN}", PARTIAL_SPLIT_CHAR)
                         .Split(PARTIAL_SPLIT_CHAR.ToCharArray());
 
                 StringBuilder newText = new StringBuilder();
@@ -121,6 +94,21 @@ namespace RazorX.ViewEngine
             }
 
             return text;
+        }
+
+        private static void addProps(StringBuilder dynamicObject, HtmlAttributeCollection attributes)
+        {
+            foreach (var attribute in attributes)
+            {
+                if (attribute.Value.StartsWith("@"))
+                {
+                    dynamicObject.Append($".Add(\"{attribute.Name}\", {attribute.Value.Substring(1)})");
+                }
+                else
+                {
+                    dynamicObject.Append($".Add(\"{attribute.Name}\", \"{attribute.Value}\")");
+                }
+            }
         }
     }
 }

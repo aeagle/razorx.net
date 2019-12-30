@@ -29,6 +29,12 @@ textarea {
     margin-bottom: 15px;
 }
 
+.boxout:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .boxout.type-standard {
     background-color: #dddddd;
 }

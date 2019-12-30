@@ -168,7 +168,9 @@
     <Content Include="Views\Shared\CardContainer.cshtml" />
     <None Include="Views\Shared\Boxout.cshtml" />
     <Content Include="Views\Shared\Card.cshtml" />
-    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Index.cshtml">
+      <BrowseToURL>~/</BrowseToURL>
+    </None>
     <Content Include="Views\Shared\TabContainer.cshtml" />
     <Content Include="Views\Shared\Tab.cshtml" />
   </ItemGroup>

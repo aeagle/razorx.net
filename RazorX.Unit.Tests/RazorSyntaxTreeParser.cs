@@ -11,25 +11,18 @@ namespace RazorX.Unit.Tests
 {
     public class RazorSyntaxTreeParserTests
     {
-        [Test]
-        public void RazorSyntaxTreeParser_SimpleSplitComponent_ExpectedIsValid()
+        [TestCase("ComponentSimple")]
+        [TestCase("ComponentWithinComponent")]
+        [TestCase("ComponentUseSimple")]
+        [TestCase("ComponentUseNested")]
+        public void RazorSyntaxTreeParser_IsValid(string testFolder)
         {
             // Arrange
-            var expected = File.ReadAllText(TestFile("ComponentSimple-Expected.cshtml"));
+            var original = File.ReadAllText(TestFile($"{testFolder}/Original.cshtml"));
+            var expected = File.ReadAllText(TestFile($"{testFolder}/Expected.cshtml"));
+            Assert.IsTrue(IsValidRazor(original));
+            Assert.IsTrue(IsValidRazor(expected));
 
-            // Act
-            var actual = IsValidRazor(expected);
-
-            // Assert
-            Assert.IsTrue(actual);
-        }
-
-        [Test]
-        public void RazorSyntaxTreeParser_SimpleSplitComponent_IsValid()
-        {
-            // Arrange
-            var original = File.ReadAllText(TestFile("ComponentSimple.cshtml"));
-            var expected = File.ReadAllText(TestFile("ComponentSimple-Expected.cshtml"));
             var sut = new RazorXSyntaxTreeParser();
 
             // Act
@@ -38,19 +31,6 @@ namespace RazorX.Unit.Tests
             // Assert
             Assert.AreEqual(expected, actual);
             Assert.IsTrue(IsValidRazor(actual));
-        }
-
-        [Test]
-        public void RazorSyntaxTreeParser_ComponentWithinComponent_ExpectedIsValid()
-        {
-            // Arrange
-            var expected = File.ReadAllText(TestFile("ComponentWithinComponent-Expected.cshtml"));
-
-            // Act
-            var actual = IsValidRazor(expected);
-
-            // Assert
-            Assert.IsTrue(actual);
         }
 
         public static string TestFile(string name) =>

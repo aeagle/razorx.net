@@ -89,8 +89,9 @@ Apart from the special `component-` tag the rest of the `cshtml` file is rendere
 
 ## Things to look at
 
-- Property validation / intellisense
 - Less naive preprocessor moving from Regex to Razor syntax tree parser
+- Property validation / intellisense
+- Precompiled Razor views
 - ASP.NET Core implementation
 
 ## Disclaimer

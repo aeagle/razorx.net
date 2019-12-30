@@ -90,7 +90,8 @@ Apart from the special `component-` tag the rest of the `cshtml` file is rendere
 ## Things to look at
 
 - Property validation / intellisense
-- Less naive parser moving from Regex to Razor parser
+- Less naive preprocessor moving from Regex to Razor syntax tree parser
+- ASP.NET Core implementation
 
 ## Disclaimer
 

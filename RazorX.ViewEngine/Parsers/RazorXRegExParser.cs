@@ -44,9 +44,9 @@ namespace RazorX.ViewEngine
                     var propsGuid = Guid.NewGuid().ToString().Replace("-", "");
 
                     StringBuilder dynamicObject = new StringBuilder();
-                    dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", true)");
+                    dynamicObject.Append($"@(Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", true)");
                     addProps(dynamicObject, node.Attributes);
-                    dynamicObject.Append($".Build())");
+                    dynamicObject.Append($".Build()))");
 
                     if (match.Groups.Count > 3)
                     {
@@ -67,9 +67,9 @@ namespace RazorX.ViewEngine
                             );
                         }
 
-                        dynamicObject.Append($"@Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", false)");
+                        dynamicObject.Append($"@(Html.Partial(\"{match.Groups[1]}\", (object)RazorX.ViewEngine.RazorXProps.Create().Add(\"renderTop\", false)");
                         addProps(dynamicObject, node.Attributes);
-                        dynamicObject.Append($".Build())");
+                        dynamicObject.Append($".Build()))");
                     }
 
                     var replacement = dynamicObject.ToString();

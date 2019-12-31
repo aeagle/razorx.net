@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRazorXParser.cs" />
+    <Compile Include="Parsers\RazorXSyntaxTreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parsers\RazorXRegExParser.cs" />
     <Compile Include="Parsers\RazorXSyntaxTreeParser.cs" />

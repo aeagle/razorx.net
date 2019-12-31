@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web.Razor;
+using System.Web.Razor.Parser.SyntaxTree;
 
 namespace RazorX.Unit.Tests
 {
@@ -34,6 +35,20 @@ namespace RazorX.Unit.Tests
                 {
                     var parserResults = engine.ParseTemplate(reader);
                     return !parserResults.ParserErrors.Any();
+                }
+            }
+        }
+
+        public static Block RazorSyntaxTree(string razor)
+        {
+            var host = new RazorEngineHost(new CSharpRazorCodeLanguage());
+            var engine = new RazorTemplateEngine(host);
+
+            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(razor)))
+            {
+                using (var reader = new StreamReader(stream))
+                {
+                    return engine.ParseTemplate(reader).Document;
                 }
             }
         }

@@ -16,8 +16,8 @@ namespace RazorX.Unit.Tests
             // Arrange
             var original = File.ReadAllText(Utils.TestFile($"{testFolder}/Original.cshtml"));
             var expected = File.ReadAllText(Utils.TestFile($"{testFolder}/Expected.cshtml"));
-            Assert.IsTrue(Utils.IsValidRazor(original));
-            Assert.IsTrue(Utils.IsValidRazor(expected));
+            Assert.IsTrue(Utils.IsValidRazor(original), "Original file is not valid");
+            Assert.IsTrue(Utils.IsValidRazor(expected), "Expected file is not valid");
 
             var sut = new RazorXRegExParser();
 

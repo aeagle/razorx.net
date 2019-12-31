@@ -175,6 +175,8 @@
     <Content Include="Views\Bootstrap\Column.cshtml" />
     <Content Include="Views\Bootstrap\HeaderLink.cshtml" />
     <Content Include="Views\Bootstrap\Sidebar.cshtml" />
+    <Content Include="Views\Bootstrap\PrimaryButton.cshtml" />
+    <Content Include="Views\Bootstrap\SecondaryButton.cshtml" />
     <None Include="Views\Shared\Boxout.cshtml" />
     <Content Include="Views\Shared\Card.cshtml" />
     <None Include="Views\Home\Index.cshtml">

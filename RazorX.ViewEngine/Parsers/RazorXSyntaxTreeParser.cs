@@ -50,6 +50,8 @@ namespace RazorX.ViewEngine
         {
             internal List<Span> FlattenedTree { get; set; } = new List<Span>();
             internal bool NeedsSplit { get; set; } = false;
+            internal Block PreviousBlock { get; set; }
+            internal Span PreviousSpan { get; set; }
         }
 
         private static void WalkTree(WalkContext context, Block block, int level = 0)
@@ -70,14 +72,17 @@ namespace RazorX.ViewEngine
                     {
                         // TODO: Add @: in front of tags now missing end tag and vice versa because of added @if statements
                         context.FlattenedTree.Add(span);
+                        context.PreviousSpan = span;
 
                         // TODO: Process <component-xxx> tags
                     }
 
                     if (item.IsBlock)
                     {
+                        context.PreviousBlock = block;
                         WalkTree(context, (Block)item, level + 1);
                     }
+
                 }
             }
 

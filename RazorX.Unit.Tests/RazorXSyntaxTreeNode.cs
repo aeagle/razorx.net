@@ -1,14 +1,12 @@
 using NUnit.Framework;
-using RazorX.ViewEngine;
 using RazorX.ViewEngine.Parsers;
-using System;
 using System.IO;
 
 namespace RazorX.Unit.Tests
 {
     public class RazorXSyntaxTreeNodeTests
     {
-        [TestCase("ComponentSimple")]
+        [TestCase("ComponentComplex")]
         public void RazorXRegExParser_IsValid(string testFolder)
         {
             // Arrange

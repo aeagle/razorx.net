@@ -1,0 +1,20 @@
+﻿@model dynamic
+@{ 
+    Layout = null;
+}
+
+<div class="outer" id="@Model.id">
+    @Html.Partial("partial")
+    <div class="inner">
+        @foreach(var item in Model.items)
+        {
+            <a href="#">
+                Link
+            </a>
+        }
+
+        <div class="inner-inner">
+            @Model.children
+        </div>
+    </div>
+</div>

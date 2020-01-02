@@ -14,8 +14,8 @@ namespace RazorX.Unit.Tests
             Assert.IsTrue(Utils.IsValidRazor(razorFilename), "Original file is not valid");
             var razorSyntaxTree = Utils.RazorSyntaxTree(razorFilename);
 
-            // Act
-            var actual = RazorXSyntaxTreeNode.Create(razorSyntaxTree);
+            // Act 
+            var actual = RazorXSyntaxTree.Create(razorSyntaxTree);
 
             // Assert
         }

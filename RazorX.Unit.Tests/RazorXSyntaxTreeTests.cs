@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace RazorX.Unit.Tests
 {
-    public class RazorXSyntaxTreeNodeTests
+    public class RazorXSyntaxTreeTests
     {
         [TestCase("ComponentComplex")]
-        public async Task RazorXSyntaxTreeParser_IsValid(string testFolder)
+        public async Task RazorXSyntaxTree_Create_IsValid(string testFolder)
         {
             // Arrange
             var razorFilename = File.ReadAllText(Utils.TestFile($"{testFolder}/Original.cshtml"));
@@ -22,6 +22,7 @@ namespace RazorX.Unit.Tests
 
                 var actual = RazorXSyntaxTree.Create(razorSyntaxTree);
                 logger.Log(actual);
+                logger.Log(new { A = 1, B = "2", C = 3 });
 
                 await logger.Flush();
             }

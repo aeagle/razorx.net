@@ -67,11 +67,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRazorXParser.cs" />
-    <Compile Include="Parsers\RazorXSyntaxTreeNode.cs" />
+    <Compile Include="Parsers\RazorXSyntaxTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parsers\RazorXRegExParser.cs" />
     <Compile Include="Parsers\RazorXSyntaxTreeParser.cs" />
     <Compile Include="RazorXProps.cs" />
+    <Compile Include="RazorXSyntaxTreeNode.cs" />
+    <Compile Include="RazorXSyntaxTreeNodeType.cs" />
     <Compile Include="RazorXView.cs" />
     <Compile Include="RazorXViewEngine.cs" />
     <Compile Include="RazorXVirtualFile.cs" />

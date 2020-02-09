@@ -5,18 +5,6 @@ using System.Web.Razor.Parser.SyntaxTree;
 
 namespace RazorX.ViewEngine.Parsers
 {
-    public enum RazorXSyntaxTreeNodeType
-    {
-        Root,
-        Text,
-        Tag,
-        TagAttribute,
-        CodeBlock,
-        Code,
-        Expression,
-        SplitExpression
-    }
-
     public class RazorXSyntaxTree : RazorXSyntaxTreeNode
     {
         public static RazorXSyntaxTree Create(Block razorSyntaxTree)
@@ -231,24 +219,6 @@ namespace RazorX.ViewEngine.Parsers
             internal StringBuilder Text { get; private set; } = new StringBuilder();
             internal StringBuilder HtmlTagName { get; private set; } = new StringBuilder();
             internal StringBuilder HtmlTagAttributes { get; private set; } = new StringBuilder();
-        }
-    }
-
-    public class RazorXSyntaxTreeNode
-    {
-        protected internal RazorXSyntaxTreeNode()
-        {
-        }
-
-        public RazorXSyntaxTreeNodeType Type { get; set; }
-        public string Content { get; set; }
-        public Block SourceBlock { get; set; }
-        public List<RazorXSyntaxTreeNode> Meta { get; set; } = new List<RazorXSyntaxTreeNode>();
-        public List<RazorXSyntaxTreeNode> Children { get; set; } = new List<RazorXSyntaxTreeNode>();
-
-        public override string ToString()
-        {
-            return $"{Type}:{Content}";
         }
     }
 }

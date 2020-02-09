@@ -11,7 +11,7 @@ namespace RazorX.Unit.Tests
         [TestCase("ComponentWithinComponent")]
         [TestCase("ComponentUseSimple")]
         [TestCase("ComponentUseNested")]
-        public void RazorXRegExParser_IsValid(string testFolder)
+        public void RazorXRegExParser_Process_IsValid(string testFolder)
         {
             // Arrange
             var original = File.ReadAllText(Utils.TestFile($"{testFolder}/Original.cshtml"));

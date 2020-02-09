@@ -1,21 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Nito.AsyncEx.Context" Version="5.0.0" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="RazorEngine" Version="3.10.0" />
+    <PackageReference Include="WebApiContrib.Formatting.ProtoBuf" Version="0.9.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RazorX.ViewEngine\RazorX.ViewEngine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="VisualLog">
+      <HintPath>..\..\visuallog\VisualLog\bin\Debug\netstandard2.0\VisualLog.dll</HintPath>
+    </Reference>
+    <Reference Include="VisualLog.Collector">
+      <HintPath>..\..\visuallog\VisualLog\bin\Debug\netstandard2.0\VisualLog.Collector.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

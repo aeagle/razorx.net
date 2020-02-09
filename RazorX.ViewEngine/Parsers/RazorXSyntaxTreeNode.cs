@@ -52,7 +52,14 @@ namespace RazorX.ViewEngine.Parsers
                         {
                             SourceBlock = node,
                             Type = RazorXSyntaxTreeNodeType.SplitExpression,
-                            Content = ""
+                            Content =
+                                string.Join(
+                                    "",
+                                    node.Children
+                                        .Select(c => c as Span)
+                                        .Where(c => c != null)
+                                        .Select(c => c.Content)
+                                )
                         }
                     );
                 }

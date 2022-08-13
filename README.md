@@ -37,6 +37,14 @@ When you create these partials:
 </div>
 ```
 
+## Setup
+
+In a .NET framework web application in your Global.asax.cs file, add:
+
+```
+RazorXViewEngine.Initialize();
+```
+
 ## Why?
 
 I've been writing React applications using JSX/TSX for a while now and appreciate the composability of creating reusable components with it. 
